@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		019E0AB6D69F144579004590 /* Pods_FlooidRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BE229C3D82CEE90608A9216 /* Pods_FlooidRealm.framework */; };
+		4632CAA62138A883009C18B5 /* ObjectsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632CAA52138A883009C18B5 /* ObjectsList.swift */; };
 		4648378F21314D2300E207FB /* FlooidRealm.h in Headers */ = {isa = PBXBuildFile; fileRef = 4648378D21314D2300E207FB /* FlooidRealm.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		464837B321314ED000E207FB /* ThreadSafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464837AD21314ECE00E207FB /* ThreadSafe.swift */; };
 		464837B421314ED000E207FB /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464837AE21314ECE00E207FB /* Object.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		0F1BD68CD0250997B99DF6D7 /* Pods-FlooidRealm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlooidRealm.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlooidRealm/Pods-FlooidRealm.debug.xcconfig"; sourceTree = "<group>"; };
 		293C1577712592A04A6F9AE1 /* Pods-FlooidRealm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlooidRealm.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlooidRealm/Pods-FlooidRealm.release.xcconfig"; sourceTree = "<group>"; };
+		4632CAA52138A883009C18B5 /* ObjectsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectsList.swift; sourceTree = "<group>"; };
 		4648378A21314D2300E207FB /* FlooidRealm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlooidRealm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4648378D21314D2300E207FB /* FlooidRealm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlooidRealm.h; sourceTree = "<group>"; };
 		4648378E21314D2300E207FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -78,10 +80,11 @@
 			children = (
 				464837AF21314ECE00E207FB /* Repository.swift */,
 				464837B221314ED000E207FB /* Context.swift */,
-				464837AE21314ECE00E207FB /* Object.swift */,
 				464837B121314ECF00E207FB /* Query.swift */,
 				464837B021314ECE00E207FB /* Results.swift */,
 				464837AD21314ECE00E207FB /* ThreadSafe.swift */,
+				464837AE21314ECE00E207FB /* Object.swift */,
+				4632CAA52138A883009C18B5 /* ObjectsList.swift */,
 				4648378D21314D2300E207FB /* FlooidRealm.h */,
 				4648378E21314D2300E207FB /* Info.plist */,
 				464837B921314FCF00E207FB /* FlooidRealm.podspec */,
@@ -200,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				464837B721314ED000E207FB /* Query.swift in Sources */,
+				4632CAA62138A883009C18B5 /* ObjectsList.swift in Sources */,
 				464837B421314ED000E207FB /* Object.swift in Sources */,
 				464837B321314ED000E207FB /* ThreadSafe.swift in Sources */,
 				464837B821314ED000E207FB /* Context.swift in Sources */,
