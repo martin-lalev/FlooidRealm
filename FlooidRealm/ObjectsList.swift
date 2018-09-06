@@ -39,3 +39,28 @@ public class RealmObjectsList<T: RealmObject> {
         self.list.removeAll()
     }
 }
+extension RealmObjectsList {
+    @discardableResult
+    public func replace(with items: [T]) -> [T] {
+        let oldItems = self.items
+        self.removeAll()
+        self.append(items)
+        return oldItems
+    }
+    @discardableResult
+    public func replace(with items: Set<T>) -> [T] {
+        return self.replace(with: Array(items))
+    }
+}
+
+public class RealmObjectsReadOnlyList<T: RealmObject> {
+    private let linkingObjects: LinkingObjects<T>
+    
+    public init(for linkingObjects: LinkingObjects<T>) {
+        self.linkingObjects = linkingObjects
+    }
+    
+    public var items: [T] {
+        return Array(self.linkingObjects)
+    }
+}
