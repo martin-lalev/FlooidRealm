@@ -64,3 +64,25 @@ public class RealmObjectsReadOnlyList<T: RealmObject> {
         return Array(self.linkingObjects)
     }
 }
+
+
+
+public class RealmObjectProperty<T> {
+    private let key: String
+    private let object: RealmObject
+    
+    public init(for object: RealmObject, key: String) {
+        self.object = object
+        self.key = key
+    }
+    
+    public var value: T? {
+        return self.object.value(forKey: key) as? T
+    }
+    public func replace(with value: T?) -> T? {
+        let oldValue = self.value
+        self.object.setValue(value, forKey: self.key)
+        return oldValue
+    }
+    
+}
