@@ -29,10 +29,13 @@ public final class RealmContext {
         self.context.delete(item)
     }
     
-    public func deleteAll<T:RealmObject>(_ query:RealmQuery<T>) {
-        let fetchRequest = query.asFetchRequest(in: self)
+}
+
+extension RealmQuery {
+    public func deleteAll() {
+
         
-        self.context.delete(fetchRequest)
+        self.context.context.delete(self.asFetchRequest())
     }
     
 }

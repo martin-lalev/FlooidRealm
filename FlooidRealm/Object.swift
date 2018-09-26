@@ -11,6 +11,7 @@ import RealmSwift
 
 public protocol DataObjectProtocol {
     static func idKey() -> String
+
 }
 
 public extension DataObjectProtocol where Self: Object {
@@ -19,12 +20,12 @@ public extension DataObjectProtocol where Self: Object {
         return ThreadSafeRealmObject(ThreadSafeReference(to: self))
     }
     
-    public static func query() -> RealmQuery<Self> {
-        return RealmQuery()
+    public static func query(in context: RealmContext) -> RealmQuery<Self> {
+        return RealmQuery(for: context)
     }
     
     public static func object(forID id: String, in context:RealmContext) -> Self? {
-        return Self.query().filter(NSPredicate(format: "\(self.idKey()) = %@", id)).execute(in: context).first
+        return Self.query(in: context).filter(NSPredicate(format: "\(self.idKey()) = %@", id)).execute().first
     }
     
     public static func create(forID id: String, in context:RealmContext) -> Self {

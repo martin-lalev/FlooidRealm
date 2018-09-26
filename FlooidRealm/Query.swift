@@ -10,40 +10,43 @@ import Foundation
 import RealmSwift
 
 public class RealmQuery<T:RealmObject> {
-    var predicate: NSPredicate?
+    var predicates: [NSPredicate] = []
     var sortDescriptors: [NSSortDescriptor] = []
     
-    public func filter(_ predicate: NSPredicate) -> Self {
-        self.predicate = predicate
-        return self
-    }
-    public func sort(_ sort: [NSSortDescriptor]) -> Self {
-        self.sortDescriptors = sort.reversed()
-        return self
+    let context: RealmContext
+    init(for context: RealmContext) {
+        self.context = context
     }
     
-    func asFetchRequest(in context:RealmContext) -> Results<T> {
-        
-        var results = context.context.objects(T.self)
-        if let predicate = predicate {
-            results = results.filter(predicate)
-        }
+    public func filter(_ predicates: [NSPredicate]) -> Self {
+        self.predicates.append(contentsOf: predicates)
+        return self
+    }
+    public func filter(_ predicates: NSPredicate ...) -> Self {
+        return self.filter(predicates)
+    }
+    public func sort(_ sort: [NSSortDescriptor]) -> Self {
+        self.sortDescriptors.append(contentsOf: sort)
+        return self
+    }
+    public func sort(_ sort: NSSortDescriptor ...) -> Self {
+        return self.sort(sort)
+    }
+
+    func asFetchRequest() -> Results<T> {
+        var results = self.context.context.objects(T.self)
+        results = results.filter(NSCompoundPredicate(andPredicateWithSubpredicates: self.predicates))
         results = sortDescriptors.reduce(results, { (fr, sd) -> Results<T> in
             return fr.sorted(byKeyPath: sd.key!, ascending: sd.ascending)
         })
-        
+
         return results
     }
     
-    public func results(for context:RealmContext) -> RealmResults<T> {
-        return RealmResults<T>(for:self.asFetchRequest(in: context), in:context)
+    public func results() -> RealmResults<T> {
+        return RealmResults<T>(for:self.asFetchRequest(), in:self.context)
     }
-    public func execute(in context:RealmContext) -> [T] {
-        return Array(self.asFetchRequest(in: context))
-    }
-    public func forEach(in context:RealmContext, _ iterator:(T)->Void) {
-        for item in self.execute(in: context) {
-            iterator(item)
-        }
+    public func execute() -> [T] {
+        return Array(self.asFetchRequest())
     }
 }
