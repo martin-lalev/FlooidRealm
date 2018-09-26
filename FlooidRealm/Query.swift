@@ -36,7 +36,7 @@ public class RealmQuery<T:RealmObject> {
     func asFetchRequest() -> Results<T> {
         var results = self.context.context.objects(T.self)
         results = results.filter(NSCompoundPredicate(andPredicateWithSubpredicates: self.predicates))
-        results = sortDescriptors.reduce(results, { (fr, sd) -> Results<T> in
+        results = self.sortDescriptors.reversed().reduce(results, { (fr, sd) -> Results<T> in
             return fr.sorted(byKeyPath: sd.key!, ascending: sd.ascending)
         })
 
