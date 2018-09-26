@@ -21,9 +21,13 @@ open class RealmRepository {
         
     }
     
-    public func performInBackground(action:@escaping (RealmContext)->Void) {
+    public func performInBackground(action:@escaping (RealmContext)->Void, then: @escaping ()->Void) {
         DispatchQueue(label: UUID().uuidString).async {
             action(RealmContext(try! Realm(configuration: self.configuration)))
+            DispatchQueue.main.async {
+                self.mainContext.context.refresh()
+                then()
+            }
         }
     }
     
