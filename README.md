@@ -4,6 +4,11 @@ FlooidRealm is a simple wrapper around the Realm framework, designed to give you
 
 ![Diagram](Diagram.png)
 
+## Installation
+
+#### CocoaPods
+`pod 'FlooidRealm', :git => 'https://github.com/martin-lalev/FlooidRealm', :tag => '0.0.12'`
+
 ## Setup
 
 1. Create a `RealmProvider`: this object stores the `Realm.Configuration` as well as a refence to a main thread `Realm` object. It can also provide you with a background `Realm` object via a closure
