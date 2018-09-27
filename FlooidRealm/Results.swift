@@ -9,15 +9,9 @@
 import Foundation
 import RealmSwift
 
-private extension Notification.Name {
-    static let realmResultsLayerInitializedObservationName = NSNotification.Name("realmResultsLayerInitializedObservationName")
-    static let realmResultsLayerUpdatedObservationName = NSNotification.Name("realmResultsLayerUpdatedObservationName")
-    static let realmResultsLayerErrorObservationName = NSNotification.Name("realmResultsLayerErrorObservationName")
-}
-
 public class RealmResults<Managed:RealmObject> : NSObject {
     
-    public var objects:[Managed]? {
+    public var objects:[Managed] {
         return Array(self.results)
     }
     private let results:Results<Managed>
@@ -28,12 +22,9 @@ public class RealmResults<Managed:RealmObject> : NSObject {
         super.init()
         self.token = self.results.observe({ [weak self] (change) in
             switch change {
-            case .initial:
-                self?.postInitialized()
-            case .update:
-                self?.postUpdated()
-            case .error:
-                self?.postError()
+            case .initial: self?.postObserver(.initialized)
+            case .update: self?.postObserver(.updated)
+            case .error: self?.postObserver(.errored)
             }
         })
     }
@@ -41,33 +32,17 @@ public class RealmResults<Managed:RealmObject> : NSObject {
         self.token.invalidate()
     }
     
-    public func postInitialized() {
-        NotificationCenter.default.post(name: .realmResultsLayerInitializedObservationName, object: self)
+    public enum NotificationType: String {
+        case initialized, updated, errored
+        func asNotificationName() -> Notification.Name { return NSNotification.Name("realmResultsLayer-\(self.rawValue)-ObservationName") }
     }
-    public func addInitialized(_ observer:Any, selector: Selector) {
-        NotificationCenter.default.addObserver(observer, selector: selector, name: .realmResultsLayerInitializedObservationName, object: self)
+    public func postObserver(_ type: NotificationType) {
+        NotificationCenter.default.post(name: type.asNotificationName(), object: self)
     }
-    public func removeInitialized(_ observer:Any) {
-        NotificationCenter.default.removeObserver(observer, name: .realmResultsLayerInitializedObservationName, object: self)
+    public func addObserver(_ observer:Any, selector: Selector, for type: NotificationType) {
+        NotificationCenter.default.addObserver(observer, selector: selector, name: type.asNotificationName(), object: self)
     }
-    
-    public func postUpdated() {
-        NotificationCenter.default.post(name: .realmResultsLayerUpdatedObservationName, object: self)
-    }
-    public func addUpdated(_ observer:Any, selector: Selector) {
-        NotificationCenter.default.addObserver(observer, selector: selector, name: .realmResultsLayerUpdatedObservationName, object: self)
-    }
-    public func removeUpdated(_ observer:Any) {
-        NotificationCenter.default.removeObserver(observer, name: .realmResultsLayerUpdatedObservationName, object: self)
-    }
-    
-    public func postError() {
-        NotificationCenter.default.post(name: .realmResultsLayerErrorObservationName, object: self)
-    }
-    public func addError(_ observer:Any, selector: Selector) {
-        NotificationCenter.default.addObserver(observer, selector: selector, name: .realmResultsLayerErrorObservationName, object: self)
-    }
-    public func removeError(_ observer:Any) {
-        NotificationCenter.default.removeObserver(observer, name: .realmResultsLayerErrorObservationName, object: self)
+    public func removeObserver(_ observer:Any, for type: NotificationType) {
+        NotificationCenter.default.removeObserver(observer, name: type.asNotificationName(), object: self)
     }
 }

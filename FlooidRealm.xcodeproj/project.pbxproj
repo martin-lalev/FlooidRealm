@@ -12,7 +12,7 @@
 		4648378F21314D2300E207FB /* FlooidRealm.h in Headers */ = {isa = PBXBuildFile; fileRef = 4648378D21314D2300E207FB /* FlooidRealm.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		464837B321314ED000E207FB /* ThreadSafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464837AD21314ECE00E207FB /* ThreadSafe.swift */; };
 		464837B421314ED000E207FB /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464837AE21314ECE00E207FB /* Object.swift */; };
-		464837B521314ED000E207FB /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464837AF21314ECE00E207FB /* Repository.swift */; };
+		464837B521314ED000E207FB /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464837AF21314ECE00E207FB /* Provider.swift */; };
 		464837B621314ED000E207FB /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464837B021314ECE00E207FB /* Results.swift */; };
 		464837B721314ED000E207FB /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464837B121314ECF00E207FB /* Query.swift */; };
 		464837B821314ED000E207FB /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464837B221314ED000E207FB /* Context.swift */; };
@@ -29,7 +29,7 @@
 		4648378E21314D2300E207FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		464837AD21314ECE00E207FB /* ThreadSafe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadSafe.swift; sourceTree = "<group>"; };
 		464837AE21314ECE00E207FB /* Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
-		464837AF21314ECE00E207FB /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		464837AF21314ECE00E207FB /* Provider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		464837B021314ECE00E207FB /* Results.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 		464837B121314ECF00E207FB /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		464837B221314ED000E207FB /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 		4648378C21314D2300E207FB /* FlooidRealm */ = {
 			isa = PBXGroup;
 			children = (
-				464837AF21314ECE00E207FB /* Repository.swift */,
+				464837AF21314ECE00E207FB /* Provider.swift */,
 				464837B221314ED000E207FB /* Context.swift */,
 				464837B121314ECF00E207FB /* Query.swift */,
 				464837B021314ECE00E207FB /* Results.swift */,
@@ -212,7 +212,7 @@
 				464837B321314ED000E207FB /* ThreadSafe.swift in Sources */,
 				464837B821314ED000E207FB /* Context.swift in Sources */,
 				464837B621314ED000E207FB /* Results.swift in Sources */,
-				464837B521314ED000E207FB /* Repository.swift in Sources */,
+				464837B521314ED000E207FB /* Provider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

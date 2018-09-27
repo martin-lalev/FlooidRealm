@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-open class RealmRepository {
+open class RealmProvider {
     
     private let configuration: Realm.Configuration
     public let mainContext: RealmContext
@@ -21,12 +21,13 @@ open class RealmRepository {
         
     }
     
-    public func performInBackground(action:@escaping (RealmContext)->Void, then: @escaping ()->Void) {
+    public func performInBackground(action:@escaping (_ backgroundContext: RealmContext, _ done: ()->Void)->Void, then: @escaping ()->Void) {
         DispatchQueue(label: UUID().uuidString).async {
-            action(RealmContext(try! Realm(configuration: self.configuration)))
-            DispatchQueue.main.async {
-                self.mainContext.context.refresh()
-                then()
+            action(RealmContext(try! Realm(configuration: self.configuration))) {
+                DispatchQueue.main.async {
+                    self.mainContext.context.refresh()
+                    then()
+                }
             }
         }
     }
