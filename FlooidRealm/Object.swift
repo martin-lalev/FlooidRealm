@@ -16,32 +16,32 @@ public protocol DataObjectProtocol {
 
 public extension DataObjectProtocol where Self: Object {
     
-    public func threadSafe() -> ThreadSafeRealmObject<Self> {
+    func threadSafe() -> ThreadSafeRealmObject<Self> {
         return ThreadSafeRealmObject(ThreadSafeReference(to: self))
     }
     
-    public static func query(in context: RealmContext) -> RealmQuery<Self> {
+    static func query(in context: RealmContext) -> RealmQuery<Self> {
         return RealmQuery(for: context)
     }
     
-    public static func object(forID id: String, in context:RealmContext) -> Self? {
+    static func object(forID id: String, in context:RealmContext) -> Self? {
         return Self.query(in: context).filter(NSPredicate(format: "\(self.idKey()) = %@", id)).execute().first
     }
     
-    public static func create(forID id: String, in context:RealmContext) -> Self {
+    static func create(forID id: String, in context:RealmContext) -> Self {
         let item = Self()
         item.setValue(id, forKey: self.idKey())
         context.add(item)
         return item
     }
     
-    public static func create(in context:RealmContext) -> Self {
+    static func create(in context:RealmContext) -> Self {
         let item = Self()
         context.add(item)
         return item
     }
     
-    public static func findOrCreate(in context:RealmContext, id: String) -> Self {
+    static func findOrCreate(in context:RealmContext, id: String) -> Self {
         return self.object(forID: id, in: context) ?? self.create(forID: id, in: context)
     }
     
