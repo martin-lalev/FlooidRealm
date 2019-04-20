@@ -44,6 +44,10 @@ public extension DataObjectProtocol where Self: Object {
     static func findOrCreate(in context:RealmContext, id: String) -> Self {
         return self.object(forID: id, in: context) ?? self.create(forID: id, in: context)
     }
+
+    func delete(from context: CoreDataContext) {
+        context.delete(self)
+    }
     
 }
 
