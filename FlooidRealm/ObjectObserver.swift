@@ -9,25 +9,48 @@
 import Foundation
 import RealmSwift
 
-public typealias Change = (old: Any?, new: Any?)
-extension DataObjectProtocol where Self: Object {
-    public static func deleteObserver(for id: String, in context:RealmContext, callback: @escaping () -> Void) -> AnyObject? {
-        return Self.object(forID: id, in: context)?.deleteObserver(callback: callback)
-    }
-    public func deleteObserver(callback: @escaping () -> Void) -> AnyObject {
-        return self.observe({ (objectChange) in
-            guard case .deleted = objectChange else { return }
-            callback()
+public class RealmObjectObserver<Managed:RealmObject> : NSObject {
+
+    public enum Action { case deleted, updated }
+    
+    public var object: Managed
+    private let action: Action
+    
+    private var observerToken: AnyObject?
+    public init(for object: Managed, action: Action) {
+        self.object = object
+        self.action = action
+        super.init()
+        self.observerToken = self.object.observe({ [weak self] (objectChange) in
+            guard let self = self else { return }
+            switch (objectChange, self.action) {
+            case (.deleted, .deleted):
+                NotificationCenter.default.post(name: self.name, object: self.object, userInfo: nil)
+            case (.change, .updated):
+                NotificationCenter.default.post(name: self.name, object: self.object, userInfo: nil)
+            default:
+                break
+            }
         })
+    }
+    deinit {
+        self.observerToken = nil
     }
     
-    public static func updateObserver(for id: String, in context:RealmContext, callback: @escaping (Self, [String: (old: Any?, new: Any?)]) -> Void) -> AnyObject? {
-        return Self.object(forID: id, in: context)?.updateObserver(callback: callback)
+    private lazy var name: Notification.Name = .init("RealmObjectUpdatedObserver_\(self.object.description)")
+
+    public func add(_ observer: Any, selector: Selector) {
+        NotificationCenter.default.addObserver(observer, selector: selector, name: self.name, object: self.object)
     }
-    public func updateObserver(callback: @escaping (Self, [String: (old: Any?, new: Any?)]) -> Void) -> AnyObject {
-        return self.observe({ (objectChange) in
-            guard case .change(let propertyChanged) = objectChange else { return }
-            callback(self, propertyChanged.reduce(into: [:]) { $0[$1.name] = (old:$1.oldValue,new:$1.newValue) })
-        })
+    public func remove(_ observer: Any) {
+        NotificationCenter.default.removeObserver(observer, name: self.name, object: self.object)
+    }
+}
+
+extension DataObjectProtocol where Self: Object {
+    public static func observer(for id: String, action: RealmObjectObserver<Self>.Action, in context: RealmContext) -> RealmObjectObserver<Self>? {
+        return Self.object(forID: id, in: context).map {
+            return RealmObjectObserver(for: $0, action: action)
+        }
     }
 }

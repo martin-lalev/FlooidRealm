@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "FlooidRealm"
-s.version      = "0.0.18"
+s.version      = "0.0.19"
 s.summary      = "Realm stack abstractions."
 s.description  = "Realm stack abstractions"
 s.homepage     = "http://github.com/martin-lalev/FlooidRealm"
